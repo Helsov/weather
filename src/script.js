@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import WeatherIcon from './components/WeatherIcon';
 import WeatherDetails from './components/WeatherDetails';
-import WeatherClock from './components/WeatherClock';
 import './style.css'; 
 
 class Weather extends Component {
@@ -9,7 +8,7 @@ class Weather extends Component {
         super();
         this.state = {
             icon: ``,
-            hourse: ``,
+            time: ``,
             city: ``,
             temperature: ``,
             weatherCode: ``,
@@ -24,11 +23,11 @@ class Weather extends Component {
         fetch(`https://api.openweathermap.org/data/2.5/weather?id=499099&units=metric&lang=ru&APPID=ce804bdb83a3b31066a3d5d20b146d32`)
         .then((response) => response.json())
         .then((dataWeather) => {
-            const hourse = new Date().getHours();
+            const time = new Date().getHours();
 
 
             this.setState({
-                hourse: `${hourse}`,
+                time: `${time}`,
                 city: dataWeather.name,
                 weatherCode: dataWeather.weather[0].id,
                 icon: dataWeather.weather[0].icon,
@@ -43,16 +42,13 @@ class Weather extends Component {
     
 
     render(){
-        const {icon, hourse, city, temperature, weatherCode, description, fetching} = this.state;
+        const {icon, time, city, temperature, weatherCode, description, fetching} = this.state;
         return fetching ?
             <div className="app">Загрузка...</div>
         :
-            <div className='app' data-hourse={hourse}>
-                <WeatherIcon time={hourse} weatherCode={weatherCode} icon={icon}/>
-                <div className="weather-details">
-                    <WeatherClock/>
-                    <WeatherDetails city={city} temperature={temperature} description={description}/>
-                </div>
+            <div className='app' data-time={time}>
+                <WeatherIcon time={time} weatherCode={weatherCode} icon={icon}/>
+                <WeatherDetails city={city} temperature={temperature} description={description}/>
             </div>
         
     }
